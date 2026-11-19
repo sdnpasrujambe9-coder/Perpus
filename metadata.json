@@ -1,0 +1,6 @@
+{
+  "name": "PustakaNusa — Sistem Perpustakaan Digital",
+  "description": "Aplikasi manajemen perpustakaan digital dengan peminjaman Rp 1.000 per buku, pelacakan stok otomatis, notifikasi denda keterlambatan, akses 2 pustakawan, dan dashboard analitik pengunjung harian.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
