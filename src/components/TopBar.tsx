@@ -16,7 +16,7 @@ const TAB_LABELS: Record<NavTab, string> = {
   circulation: 'Sirkulasi Peminjaman & Pengembalian',
   catalog: 'Katalog & Pelacakan Stok Otomatis',
   visitors: 'Log Pengunjung Harian',
-  notifications: 'Sistem Notifikasi Denda Keterlambatan',
+  notifications: 'Notifikasi Denda Keterlambatan',
 };
 
 export function TopBar({
@@ -28,7 +28,7 @@ export function TopBar({
   onOpenNotifications,
 }: TopBarProps) {
   return (
-    <header className="h-16 bg-white border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between gap-4 shrink-0">
+    <header className="h-16 bg-white/95 backdrop-blur-xs border-b border-[#E2E7E4] px-4 sm:px-6 flex items-center justify-between gap-4 shrink-0 sticky top-0 z-30">
       {/* Zone 1: Breadcrumb */}
       <div className="flex items-center gap-3 min-w-0">
         <button
@@ -44,7 +44,7 @@ export function TopBar({
           <span className="text-slate-300 hidden sm:inline" aria-hidden="true">
             /
           </span>
-          <h1 className="font-display font-semibold text-slate-900 truncate">
+          <h1 className="font-display text-base sm:text-lg font-semibold text-[#111C19] truncate">
             {TAB_LABELS[activeTab]}
           </h1>
         </div>
@@ -56,10 +56,10 @@ export function TopBar({
           type="button"
           onClick={onOpenNotifications}
           aria-label={`Lihat ${overdueCount} notifikasi denda keterlambatan`}
-          className={`relative px-3 py-2 rounded-lg border text-xs font-medium flex items-center gap-2 transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+          className={`px-3 py-2 rounded-lg border text-xs font-medium flex items-center gap-2 transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
             overdueCount > 0
               ? 'border-red-200 bg-red-50 text-red-700 hover:bg-red-100'
-              : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50'
+              : 'border-[#DCE3DF] bg-white text-slate-600 hover:bg-slate-50'
           }`}
         >
           <Bell className="w-4 h-4" />
@@ -70,7 +70,7 @@ export function TopBar({
         <button
           type="button"
           onClick={onOpenVisitorModal}
-          className="hidden sm:flex px-3.5 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-medium items-center gap-1.5 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+          className="hidden sm:flex px-3.5 py-2 rounded-lg border border-[#DCE3DF] bg-white hover:bg-slate-50 text-[#111C19] text-xs font-medium items-center gap-1.5 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
         >
           <UserPlus className="w-4 h-4 text-slate-500" />
           <span>Catat Pengunjung</span>
@@ -79,7 +79,7 @@ export function TopBar({
         <button
           type="button"
           onClick={onOpenLoanModal}
-          className="px-4 py-2 rounded-lg bg-blue-700 hover:bg-blue-800 text-white text-xs font-medium flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+          className="px-4 py-2 rounded-lg bg-[#0F766E] hover:bg-[#115E59] text-white text-xs font-semibold flex items-center gap-1.5 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>Catat Peminjaman</span>

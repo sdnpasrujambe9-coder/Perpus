@@ -1,6 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { Minus, Pencil, Plus, Search, Trash2 } from 'lucide-react';
+import { motion } from 'motion/react';
 import type { Book } from '../types/library';
+import { BookSpineThumbnail } from './BookSpineThumbnail';
 
 interface CatalogViewProps {
   books: Book[];
@@ -138,11 +140,16 @@ export function CatalogView({
   };
 
   return (
-    <div className="space-y-5">
+    <motion.div
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+      className="space-y-5"
+    >
       {/* Toolbar */}
-      <div className="bg-white border border-slate-200 rounded-xl p-4 flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+      <div className="bg-white border border-[#DCE3DF] rounded-2xl p-4 flex flex-col xl:flex-row xl:items-center justify-between gap-4">
         <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center gap-1 p-1 bg-slate-100 rounded-lg">
+          <div className="flex items-center gap-1 p-1 bg-[#EEF2F0] rounded-lg">
             {(
               [
                 { id: 'all', label: 'Semua' },
@@ -155,10 +162,10 @@ export function CatalogView({
                 key={tab.id}
                 type="button"
                 onClick={() => setStockFilter(tab.id)}
-                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap cursor-pointer ${
+                className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors whitespace-nowrap cursor-pointer ${
                   stockFilter === tab.id
-                    ? 'bg-white text-slate-900 shadow-xs'
-                    : 'text-slate-600 hover:text-slate-900'
+                    ? 'bg-white text-[#111C19] shadow-xs'
+                    : 'text-slate-600 hover:text-[#111C19]'
                 }`}
               >
                 {tab.label}
@@ -170,7 +177,7 @@ export function CatalogView({
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
             aria-label="Filter kategori buku"
-            className="px-3 py-2 text-xs bg-white border border-slate-200 rounded-lg text-slate-700 focus:outline-none focus:border-blue-600"
+            className="px-3 py-2 text-xs bg-white border border-[#DCE3DF] rounded-lg text-slate-700 focus:outline-none focus:border-teal-700"
           >
             <option value="all">Semua Kategori</option>
             {BOOK_CATEGORIES.map((cat) => (
@@ -189,13 +196,13 @@ export function CatalogView({
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Cari judul, penulis, ISBN, rak..."
-              className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:bg-white focus:border-blue-600"
+              className="w-full pl-9 pr-3 py-2 text-xs bg-[#F8FAF9] border border-[#DCE3DF] rounded-lg text-[#111C19] focus:outline-none focus:bg-white focus:border-teal-700"
             />
           </div>
           <button
             type="button"
             onClick={openNewModal}
-            className="px-3.5 py-2 rounded-lg bg-blue-700 hover:bg-blue-800 text-white text-xs font-medium whitespace-nowrap shrink-0 cursor-pointer"
+            className="px-4 py-2 rounded-lg bg-[#0F766E] hover:bg-[#115E59] text-white text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer"
           >
             + Tambah Buku
           </button>
@@ -203,10 +210,10 @@ export function CatalogView({
       </div>
 
       {/* Catalog Table */}
-      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
+      <div className="bg-white border border-[#DCE3DF] rounded-2xl overflow-hidden">
         {filteredBooks.length === 0 ? (
           <div className="p-12 text-center">
-            <p className="text-sm font-medium text-slate-900">Tidak ada buku ditemukan</p>
+            <p className="text-sm font-medium text-[#111C19]">Tidak ada buku ditemukan</p>
             <p className="mt-1 text-xs text-slate-500">
               Coba ubah kata kunci pencarian atau tambahkan judul buku baru ke katalog.
             </p>
@@ -215,8 +222,8 @@ export function CatalogView({
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="border-b border-slate-200 bg-slate-50/70 text-slate-500">
-                  <th className="py-3 px-4 font-medium">Judul & Penulis</th>
+                <tr className="border-b border-[#E2E7E4] bg-[#F8FAF9] text-slate-500">
+                  <th className="py-3 px-4 font-medium">Koleksi Buku</th>
                   <th className="py-3 px-4 font-medium">Rak / ISBN</th>
                   <th className="py-3 px-4 font-medium">Kategori</th>
                   <th className="py-3 px-4 font-medium text-right">Total Stok</th>
@@ -242,15 +249,27 @@ export function CatalogView({
                         : 'text-emerald-700';
 
                   return (
-                    <tr key={book.id} className="hover:bg-slate-50/80 transition-colors">
+                    <tr key={book.id} className="hover:bg-[#F8FAF9] transition-colors">
                       <td className="py-3.5 px-4">
-                        <div className="font-medium text-slate-900">{book.title}</div>
-                        <div className="text-slate-500 mt-0.5">
-                          {book.author} <span aria-hidden="true">·</span> {book.publisher} ({book.year})
+                        <div className="flex items-center gap-3">
+                          <BookSpineThumbnail
+                            title={book.title}
+                            category={book.category}
+                            shelfCode={book.shelfCode}
+                          />
+                          <div className="min-w-0">
+                            <div className="font-semibold text-[#111C19]">{book.title}</div>
+                            <div className="text-slate-500 mt-0.5">
+                              {book.author} <span aria-hidden="true">·</span> {book.publisher} (
+                              {book.year})
+                            </div>
+                          </div>
                         </div>
                       </td>
                       <td className="py-3.5 px-4 whitespace-nowrap">
-                        <div className="font-mono font-semibold text-slate-900">{book.shelfCode}</div>
+                        <div className="font-mono font-semibold text-[#111C19]">
+                          {book.shelfCode}
+                        </div>
                         <div className="font-mono text-[11px] text-slate-500 mt-0.5">{book.isbn}</div>
                       </td>
                       <td className="py-3.5 px-4 text-slate-600 whitespace-nowrap">
@@ -268,11 +287,11 @@ export function CatalogView({
                             disabled={book.totalStock <= book.borrowedCount}
                             title="Kurangi 1 total stok"
                             aria-label={`Kurangi stok ${book.title}`}
-                            className="p-1 rounded border border-slate-200 text-slate-600 hover:bg-slate-100 disabled:opacity-35 cursor-pointer"
+                            className="p-1 rounded border border-[#DCE3DF] text-slate-600 hover:bg-slate-100 disabled:opacity-35 cursor-pointer"
                           >
                             <Minus className="w-3 h-3" />
                           </button>
-                          <span className="font-mono tabular-nums font-medium text-slate-900 w-6 text-center">
+                          <span className="font-mono tabular-nums font-medium text-[#111C19] w-6 text-center">
                             {book.totalStock}
                           </span>
                           <button
@@ -282,7 +301,7 @@ export function CatalogView({
                             }
                             title="Tambah 1 total stok"
                             aria-label={`Tambah stok ${book.title}`}
-                            className="p-1 rounded border border-slate-200 text-slate-600 hover:bg-slate-100 cursor-pointer"
+                            className="p-1 rounded border border-[#DCE3DF] text-slate-600 hover:bg-slate-100 cursor-pointer"
                           >
                             <Plus className="w-3 h-3" />
                           </button>
@@ -291,10 +310,10 @@ export function CatalogView({
                       <td className="py-3.5 px-4 text-right font-mono tabular-nums text-slate-600">
                         {book.borrowedCount}
                       </td>
-                      <td className="py-3.5 px-4 text-right font-mono tabular-nums font-semibold text-slate-900">
+                      <td className="py-3.5 px-4 text-right font-mono tabular-nums font-semibold text-[#111C19]">
                         {book.availableStock}
                       </td>
-                      <td className={`py-3.5 px-4 font-medium whitespace-nowrap ${statusTone}`}>
+                      <td className={`py-3.5 px-4 font-semibold whitespace-nowrap ${statusTone}`}>
                         {statusLabel}
                       </td>
                       <td className="py-3.5 px-4 text-right whitespace-nowrap">
@@ -303,7 +322,7 @@ export function CatalogView({
                             type="button"
                             onClick={() => openEditModal(book)}
                             aria-label={`Edit buku ${book.title}`}
-                            className="p-1.5 rounded-md text-slate-500 hover:text-slate-900 hover:bg-slate-100 cursor-pointer"
+                            className="p-1.5 rounded-md text-slate-500 hover:text-[#111C19] hover:bg-slate-100 cursor-pointer"
                           >
                             <Pencil className="w-3.5 h-3.5" />
                           </button>
@@ -335,12 +354,12 @@ export function CatalogView({
       {/* Add / Edit Book Modal */}
       {modalBook && (
         <div
-          className="fixed inset-0 z-50 bg-slate-900/45 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-slate-950/50 flex items-center justify-center p-4"
           role="dialog"
           aria-modal="true"
         >
-          <div className="bg-white border border-slate-200 rounded-xl w-full max-w-lg p-6">
-            <h3 className="font-display text-lg font-semibold text-slate-900">
+          <div className="bg-white border border-[#DCE3DF] rounded-2xl w-full max-w-lg p-6">
+            <h3 className="font-display text-xl font-semibold text-[#111C19]">
               {modalBook === 'new' ? 'Tambah Judul Buku Baru' : 'Perbarui Data Buku'}
             </h3>
             <p className="mt-1 text-xs text-slate-500">
@@ -355,7 +374,7 @@ export function CatalogView({
                   required
                   value={form.title}
                   onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-600"
+                  className="w-full px-3 py-2 border border-[#DCE3DF] rounded-lg focus:outline-none focus:border-teal-700"
                 />
               </div>
 
@@ -367,7 +386,7 @@ export function CatalogView({
                     required
                     value={form.author}
                     onChange={(e) => setForm((f) => ({ ...f, author: e.target.value }))}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-600"
+                    className="w-full px-3 py-2 border border-[#DCE3DF] rounded-lg focus:outline-none focus:border-teal-700"
                   />
                 </div>
                 <div>
@@ -376,7 +395,7 @@ export function CatalogView({
                     type="text"
                     value={form.publisher}
                     onChange={(e) => setForm((f) => ({ ...f, publisher: e.target.value }))}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-600"
+                    className="w-full px-3 py-2 border border-[#DCE3DF] rounded-lg focus:outline-none focus:border-teal-700"
                   />
                 </div>
               </div>
@@ -387,7 +406,7 @@ export function CatalogView({
                   <select
                     value={form.category}
                     onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
-                    className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-600 bg-white"
+                    className="w-full px-3 py-2 border border-[#DCE3DF] rounded-lg focus:outline-none focus:border-teal-700 bg-white"
                   >
                     {BOOK_CATEGORIES.map((cat) => (
                       <option key={cat} value={cat}>
@@ -403,7 +422,7 @@ export function CatalogView({
                     value={form.isbn}
                     onChange={(e) => setForm((f) => ({ ...f, isbn: e.target.value }))}
                     placeholder="Otomatis jika kosong"
-                    className="w-full px-3 py-2 font-mono border border-slate-200 rounded-lg focus:outline-none focus:border-blue-600"
+                    className="w-full px-3 py-2 font-mono border border-[#DCE3DF] rounded-lg focus:outline-none focus:border-teal-700"
                   />
                 </div>
               </div>
@@ -416,7 +435,7 @@ export function CatalogView({
                     required
                     value={form.shelfCode}
                     onChange={(e) => setForm((f) => ({ ...f, shelfCode: e.target.value }))}
-                    className="w-full px-3 py-2 font-mono uppercase border border-slate-200 rounded-lg focus:outline-none focus:border-blue-600"
+                    className="w-full px-3 py-2 font-mono uppercase border border-[#DCE3DF] rounded-lg focus:outline-none focus:border-teal-700"
                   />
                 </div>
                 <div>
@@ -427,7 +446,7 @@ export function CatalogView({
                     max={2030}
                     value={form.year}
                     onChange={(e) => setForm((f) => ({ ...f, year: Number(e.target.value) }))}
-                    className="w-full px-3 py-2 font-mono border border-slate-200 rounded-lg focus:outline-none focus:border-blue-600"
+                    className="w-full px-3 py-2 font-mono border border-[#DCE3DF] rounded-lg focus:outline-none focus:border-teal-700"
                   />
                 </div>
                 <div>
@@ -439,7 +458,7 @@ export function CatalogView({
                     required
                     value={form.totalStock}
                     onChange={(e) => setForm((f) => ({ ...f, totalStock: Number(e.target.value) }))}
-                    className="w-full px-3 py-2 font-mono border border-slate-200 rounded-lg focus:outline-none focus:border-blue-600"
+                    className="w-full px-3 py-2 font-mono border border-[#DCE3DF] rounded-lg focus:outline-none focus:border-teal-700"
                   />
                 </div>
               </div>
@@ -454,14 +473,14 @@ export function CatalogView({
                 <button
                   type="button"
                   onClick={() => setModalBook(null)}
-                  className="px-4 py-2 text-xs font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer"
+                  className="px-4 py-2 text-xs font-medium text-slate-700 bg-white border border-[#DCE3DF] rounded-lg hover:bg-slate-50 cursor-pointer"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="px-4 py-2 text-xs font-medium text-white bg-blue-700 hover:bg-blue-800 disabled:opacity-50 rounded-lg cursor-pointer"
+                  className="px-4 py-2 text-xs font-semibold text-white bg-[#0F766E] hover:bg-[#115E59] disabled:opacity-50 rounded-lg cursor-pointer"
                 >
                   {saving ? 'Menyimpan...' : 'Simpan Buku'}
                 </button>
@@ -470,6 +489,6 @@ export function CatalogView({
           </div>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }

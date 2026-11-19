@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { BellRing, CheckCircle2, RotateCcw, Search } from 'lucide-react';
+import { motion } from 'motion/react';
 import type { EnrichedLoan } from '../types/library';
 import { formatDateShort, formatRupiah, getDueStatusText } from '../lib/format';
 
@@ -61,10 +62,15 @@ export function CirculationView({
   };
 
   return (
-    <div className="space-y-5">
+    <motion.div
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+      className="space-y-5"
+    >
       {/* Filter Toolbar */}
-      <div className="bg-white border border-slate-200 rounded-xl p-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-        <div className="flex flex-wrap items-center gap-1 p-1 bg-slate-100 rounded-lg self-start">
+      <div className="bg-white border border-[#DCE3DF] rounded-2xl p-4 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div className="flex flex-wrap items-center gap-1 p-1 bg-[#EEF2F0] rounded-lg self-start">
           {(
             [
               { id: 'all', label: `Semua (${counts.all})` },
@@ -77,10 +83,10 @@ export function CirculationView({
               key={tab.id}
               type="button"
               onClick={() => setFilter(tab.id)}
-              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap cursor-pointer ${
+              className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors whitespace-nowrap cursor-pointer ${
                 filter === tab.id
-                  ? 'bg-white text-slate-900 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
+                  ? 'bg-white text-[#111C19] shadow-xs'
+                  : 'text-slate-600 hover:text-[#111C19]'
               }`}
             >
               {tab.label}
@@ -96,13 +102,13 @@ export function CirculationView({
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Cari kode, peminjam, atau judul buku..."
-              className="w-full pl-9 pr-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:bg-white focus:border-blue-600"
+              className="w-full pl-9 pr-3 py-2 text-xs bg-[#F8FAF9] border border-[#DCE3DF] rounded-lg text-[#111C19] focus:outline-none focus:bg-white focus:border-teal-700"
             />
           </div>
           <button
             type="button"
             onClick={onOpenLoanModal}
-            className="px-3.5 py-2 rounded-lg bg-blue-700 hover:bg-blue-800 text-white text-xs font-medium whitespace-nowrap shrink-0 cursor-pointer"
+            className="px-4 py-2 rounded-lg bg-[#0F766E] hover:bg-[#115E59] text-white text-xs font-semibold whitespace-nowrap shrink-0 cursor-pointer"
           >
             + Pinjam Buku
           </button>
@@ -110,10 +116,10 @@ export function CirculationView({
       </div>
 
       {/* Circulation Table */}
-      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
+      <div className="bg-white border border-[#DCE3DF] rounded-2xl overflow-hidden">
         {filteredLoans.length === 0 ? (
           <div className="p-12 text-center">
-            <p className="text-sm font-medium text-slate-900">
+            <p className="text-sm font-medium text-[#111C19]">
               Tidak ada transaksi peminjaman yang cocok
             </p>
             <p className="mt-1 text-xs text-slate-500">
@@ -122,7 +128,7 @@ export function CirculationView({
             <button
               type="button"
               onClick={onOpenLoanModal}
-              className="mt-4 px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white text-xs font-medium rounded-lg cursor-pointer"
+              className="mt-4 px-4 py-2 bg-[#0F766E] hover:bg-[#115E59] text-white text-xs font-semibold rounded-lg cursor-pointer"
             >
               Catat Peminjaman Baru
             </button>
@@ -131,7 +137,7 @@ export function CirculationView({
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="border-b border-slate-200 bg-slate-50/70 text-slate-500">
+                <tr className="border-b border-[#E2E7E4] bg-[#F8FAF9] text-slate-500">
                   <th className="py-3 px-4 font-medium">Kode & Tanggal</th>
                   <th className="py-3 px-4 font-medium">Peminjam</th>
                   <th className="py-3 px-4 font-medium">Buku Dipinjam</th>
@@ -151,32 +157,32 @@ export function CirculationView({
                         ? 'text-red-600'
                         : loan.isDueSoon
                           ? 'text-amber-700'
-                          : 'text-blue-700';
+                          : 'text-teal-800';
                   return (
-                    <tr key={loan.id} className="hover:bg-slate-50/80 transition-colors">
+                    <tr key={loan.id} className="hover:bg-[#F8FAF9] transition-colors">
                       <td className="py-3.5 px-4 align-top whitespace-nowrap">
-                        <div className="font-mono font-semibold text-slate-900">{loan.code}</div>
+                        <div className="font-mono font-semibold text-[#111C19]">{loan.code}</div>
                         <div className="text-slate-500 mt-0.5">{formatDateShort(loan.borrowedAt)}</div>
                       </td>
                       <td className="py-3.5 px-4 align-top">
-                        <div className="font-medium text-slate-900">{loan.borrowerName}</div>
+                        <div className="font-semibold text-[#111C19]">{loan.borrowerName}</div>
                         <div className="text-slate-500 mt-0.5 font-mono text-[11px]">
                           {loan.borrowerIdNumber} <span aria-hidden="true">·</span> {loan.borrowerPhone}
                         </div>
                       </td>
                       <td className="py-3.5 px-4 align-top max-w-[260px]">
-                        <div className="text-slate-900 font-medium">
+                        <div className="text-[#111C19] font-medium">
                           {loan.items.map((item) => item.title).join(', ')}
                         </div>
                         <div className="text-slate-500 mt-0.5 font-mono text-[11px]">
                           {loan.totalBooks} buku × Rp 1.000
                         </div>
                       </td>
-                      <td className="py-3.5 px-4 align-top text-right font-mono tabular-nums font-medium text-slate-900 whitespace-nowrap">
+                      <td className="py-3.5 px-4 align-top text-right font-mono tabular-nums font-medium text-[#111C19] whitespace-nowrap">
                         {formatRupiah(loan.loanFee)}
                       </td>
                       <td className="py-3.5 px-4 align-top whitespace-nowrap">
-                        <div className={`font-medium ${statusColor}`}>{getDueStatusText(loan)}</div>
+                        <div className={`font-semibold ${statusColor}`}>{getDueStatusText(loan)}</div>
                         <div className="text-slate-500 mt-0.5">
                           Batas: {formatDateShort(loan.dueDate)}
                         </div>
@@ -216,7 +222,7 @@ export function CirculationView({
                                   type="button"
                                   onClick={() => onJumpToNotification(loan.id)}
                                   title="Kirim notifikasi keterlambatan"
-                                  className="px-2.5 py-1.5 rounded-md border border-red-200 text-red-700 hover:bg-red-50 font-medium inline-flex items-center gap-1 cursor-pointer"
+                                  className="px-2.5 py-1.5 rounded-lg border border-red-200 text-red-700 hover:bg-red-50 font-medium inline-flex items-center gap-1 cursor-pointer"
                                 >
                                   <BellRing className="w-3.5 h-3.5" />
                                   <span>Notifikasi</span>
@@ -228,7 +234,7 @@ export function CirculationView({
                                   setReturningLoan(loan);
                                   setSettleFineOnReturn(true);
                                 }}
-                                className="px-3 py-1.5 rounded-md bg-slate-900 hover:bg-slate-800 text-white font-medium inline-flex items-center gap-1 cursor-pointer"
+                                className="px-3 py-1.5 rounded-lg bg-[#0E1B18] hover:bg-[#19302B] text-white font-medium inline-flex items-center gap-1 cursor-pointer"
                               >
                                 <RotateCcw className="w-3.5 h-3.5" />
                                 <span>Kembalikan</span>
@@ -238,7 +244,7 @@ export function CirculationView({
                             <button
                               type="button"
                               onClick={() => onSettleFine(loan.id)}
-                              className="px-3 py-1.5 rounded-md border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-medium inline-flex items-center gap-1 cursor-pointer"
+                              className="px-3 py-1.5 rounded-lg border border-emerald-300 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-medium inline-flex items-center gap-1 cursor-pointer"
                             >
                               <CheckCircle2 className="w-3.5 h-3.5" />
                               <span>Lunasi Denda</span>
@@ -260,14 +266,14 @@ export function CirculationView({
       {/* Return Book Confirmation Modal */}
       {returningLoan && (
         <div
-          className="fixed inset-0 z-50 bg-slate-900/45 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-slate-950/50 flex items-center justify-center p-4"
           role="dialog"
           aria-modal="true"
           aria-labelledby="return-modal-title"
         >
-          <div className="bg-white border border-slate-200 rounded-xl w-full max-w-lg p-6 space-y-5">
+          <div className="bg-white border border-[#DCE3DF] rounded-2xl w-full max-w-lg p-6 space-y-5">
             <div>
-              <h3 id="return-modal-title" className="font-display text-lg font-semibold text-slate-900">
+              <h3 id="return-modal-title" className="font-display text-xl font-semibold text-[#111C19]">
                 Konfirmasi Pengembalian Buku
               </h3>
               <p className="mt-1 text-xs text-slate-500">
@@ -275,25 +281,25 @@ export function CirculationView({
               </p>
             </div>
 
-            <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 space-y-2.5 text-xs">
+            <div className="bg-[#F8FAF9] border border-[#DCE3DF] rounded-xl p-4 space-y-2.5 text-xs">
               <div className="flex justify-between">
                 <span className="text-slate-500">Kode Peminjaman</span>
-                <span className="font-mono font-semibold text-slate-900">{returningLoan.code}</span>
+                <span className="font-mono font-semibold text-[#111C19]">{returningLoan.code}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-500">Peminjam</span>
-                <span className="font-medium text-slate-900">{returningLoan.borrowerName}</span>
+                <span className="font-semibold text-[#111C19]">{returningLoan.borrowerName}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-500">Buku Dikembalikan</span>
-                <span className="font-medium text-slate-900 text-right max-w-[260px]">
+                <span className="font-medium text-[#111C19] text-right max-w-[260px]">
                   {returningLoan.items.map((i) => i.title).join(', ')}
                 </span>
               </div>
-              <div className="flex justify-between pt-2 border-t border-slate-200">
+              <div className="flex justify-between pt-2 border-t border-[#DCE3DF]">
                 <span className="text-slate-500">Status Jatuh Tempo</span>
                 <span
-                  className={`font-medium ${
+                  className={`font-semibold ${
                     returningLoan.currentLateDays > 0 ? 'text-red-600' : 'text-emerald-700'
                   }`}
                 >
@@ -304,7 +310,7 @@ export function CirculationView({
                 <span className="text-slate-500">Denda Keterlambatan</span>
                 <span
                   className={`font-mono font-semibold tabular-nums ${
-                    returningLoan.currentLateFine > 0 ? 'text-red-600' : 'text-slate-900'
+                    returningLoan.currentLateFine > 0 ? 'text-red-600' : 'text-[#111C19]'
                   }`}
                 >
                   {formatRupiah(returningLoan.currentLateFine)}
@@ -313,15 +319,15 @@ export function CirculationView({
             </div>
 
             {returningLoan.currentLateFine > 0 && (
-              <label className="flex items-start gap-2.5 p-3 rounded-lg border border-slate-200 cursor-pointer">
+              <label className="flex items-start gap-2.5 p-3 rounded-xl border border-[#DCE3DF] cursor-pointer">
                 <input
                   type="checkbox"
                   checked={settleFineOnReturn}
                   onChange={(e) => setSettleFineOnReturn(e.target.checked)}
-                  className="mt-0.5 rounded border-slate-300 text-blue-700 focus:ring-blue-600"
+                  className="mt-0.5 rounded border-slate-300 text-teal-700 focus:ring-teal-700"
                 />
                 <span className="text-xs text-slate-700">
-                  <strong className="font-semibold text-slate-900 block">
+                  <strong className="font-semibold text-[#111C19] block">
                     Tandai denda {formatRupiah(returningLoan.currentLateFine)} sudah dibayar lunas
                   </strong>
                   Hapus centang jika peminjam belum membayar denda saat buku dikembalikan.
@@ -334,7 +340,7 @@ export function CirculationView({
                 type="button"
                 onClick={() => setReturningLoan(null)}
                 disabled={processing}
-                className="px-4 py-2 text-xs font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer"
+                className="px-4 py-2 text-xs font-medium text-slate-700 bg-white border border-[#DCE3DF] rounded-lg hover:bg-slate-50 cursor-pointer"
               >
                 Batal
               </button>
@@ -342,7 +348,7 @@ export function CirculationView({
                 type="button"
                 onClick={handleConfirmReturn}
                 disabled={processing}
-                className="px-4 py-2 text-xs font-medium text-white bg-blue-700 hover:bg-blue-800 disabled:opacity-50 rounded-lg cursor-pointer"
+                className="px-4 py-2 text-xs font-semibold text-white bg-[#0F766E] hover:bg-[#115E59] disabled:opacity-50 rounded-lg cursor-pointer"
               >
                 {processing ? 'Memproses...' : 'Konfirmasi Pengembalian'}
               </button>
@@ -350,6 +356,6 @@ export function CirculationView({
           </div>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 }

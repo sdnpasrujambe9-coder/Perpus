@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { BookOpen, KeyRound, ShieldCheck } from 'lucide-react';
+import { ArrowRight, BookOpen, KeyRound, ShieldCheck } from 'lucide-react';
+import { motion } from 'motion/react';
 import type { LibrarianId, LibrarianPublic } from '../types/library';
 
 interface LibrarianLoginViewProps {
@@ -31,56 +32,84 @@ export function LibrarianLoginView({
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-center px-4 py-10">
-      <div className="mx-auto w-full max-w-4xl grid grid-cols-1 lg:grid-cols-12 bg-white border border-slate-200 rounded-xl overflow-hidden">
-        {/* Left editorial panel */}
-        <div className="lg:col-span-5 bg-slate-900 text-slate-100 p-8 flex flex-col justify-between">
-          <div>
-            <div className="flex items-center gap-2.5 text-white">
-              <div className="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center shrink-0">
+    <div className="min-h-screen bg-[#F4F6F5] flex flex-col justify-center px-4 py-10">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+        className="mx-auto w-full max-w-5xl grid grid-cols-1 lg:grid-cols-12 bg-white border border-[#DCE3DF] rounded-2xl overflow-hidden shadow-xs"
+      >
+        {/* Left Deep Archival Panel */}
+        <div className="lg:col-span-5 bg-[#0E1B18] text-slate-100 p-8 sm:p-10 flex flex-col justify-between relative overflow-hidden">
+          {/* Subtle architectural bookshelf SVG motif */}
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 320 260"
+            className="absolute -bottom-8 -right-8 w-64 h-52 opacity-15 pointer-events-none"
+          >
+            <rect x="20" y="60" width="24" height="160" rx="2" fill="#5EEAD4" />
+            <rect x="50" y="35" width="30" height="185" rx="2" fill="#99F6E4" />
+            <rect x="86" y="80" width="22" height="140" rx="2" fill="#2DD4BF" />
+            <rect x="114" y="45" width="34" height="175" rx="2" fill="#CCFBF1" />
+            <rect x="156" y="70" width="26" height="150" rx="2" fill="#5EEAD4" />
+            <rect x="190" y="25" width="28" height="195" rx="2" fill="#14B8A6" />
+            <rect x="226" y="65" width="32" height="155" rx="2" fill="#99F6E4" />
+            <line x1="10" y1="224" x2="290" y2="224" stroke="#5EEAD4" strokeWidth="3" />
+          </svg>
+
+          <div className="relative z-10">
+            <div className="flex items-center gap-3 text-white">
+              <div className="w-9 h-9 rounded-lg bg-teal-600 flex items-center justify-center shrink-0">
                 <BookOpen className="w-5 h-5 text-white" />
               </div>
               <span className="font-display text-xl font-bold tracking-tight">PustakaNusa</span>
             </div>
-            <h1 className="mt-8 font-display text-2xl font-bold leading-tight text-white [text-wrap:balance]">
-              Portal Sirkulasi & Analitik Perpustakaan
+
+            <h1 className="mt-9 font-display text-3xl font-semibold leading-[1.18] text-white [text-wrap:balance]">
+              Ruang Sirkulasi & Analitik Perpustakaan
             </h1>
-            <p className="mt-3 text-sm leading-relaxed text-slate-300">
-              Kelola peminjaman digital tarif Rp 1.000 per buku, pantau ketersediaan stok secara otomatis, kirim notifikasi denda keterlambatan, dan rekam kunjungan harian.
+            <p className="mt-3.5 text-sm leading-relaxed text-slate-300">
+              Sistem terpadu untuk pencatatan peminjaman digital, pelacakan stok otomatis, notifikasi denda keterlambatan, dan pemantauan kunjungan harian.
             </p>
           </div>
 
-          <div className="mt-10 pt-6 border-t border-slate-800 space-y-2.5 text-xs text-slate-300">
+          <div className="relative z-10 mt-10 pt-6 border-t border-[#1E322D] space-y-3 text-xs">
             <div className="flex items-center justify-between">
               <span className="text-slate-400">Tarif Peminjaman</span>
-              <span className="font-mono tabular-nums text-white">Rp 1.000 / buku</span>
+              <span className="font-mono tabular-nums text-teal-300 font-medium">
+                Rp 1.000 / buku
+              </span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-slate-400">Denda Keterlambatan</span>
-              <span className="font-mono tabular-nums text-white">Rp 1.000 / hari / buku</span>
+              <span className="font-mono tabular-nums text-slate-200 font-medium">
+                Rp 1.000 / hari / buku
+              </span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-slate-400">Akses Petugas Aktif</span>
-              <span className="font-mono tabular-nums text-white">2 Akun Pustakawan</span>
+              <span className="text-slate-400">Akses Pustakawan</span>
+              <span className="font-mono tabular-nums text-slate-200 font-medium">
+                2 Akun Petugas Terdaftar
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Right sign-in panel */}
-        <div className="lg:col-span-7 p-8 sm:p-10">
+        {/* Right Librarian Sign-in Panel */}
+        <div className="lg:col-span-7 p-8 sm:p-10 flex flex-col justify-center">
           <div className="mb-6">
-            <h2 className="font-display text-xl font-semibold text-slate-900">
-              Masuk sebagai Pustakawan
+            <h2 className="font-display text-2xl font-semibold text-[#111C19]">
+              Masuk Meja Pustakawan
             </h2>
             <p className="mt-1 text-sm text-slate-500">
-              Pilih profil petugas yang bertugas untuk mencatat transaksi atas nama akun Anda.
+              Pilih identitas pustakawan yang sedang bertugas hari ini.
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-3">
-              <label className="block text-xs font-medium text-slate-700">
-                Pilih Akun Pustakawan (2 Petugas Terdaftar)
+            <div className="space-y-2.5">
+              <label className="block text-xs font-semibold text-slate-700">
+                Akun Pustakawan Aktif
               </label>
               <div className="grid grid-cols-1 gap-3">
                 {librarians.map((lib) => {
@@ -90,24 +119,24 @@ export function LibrarianLoginView({
                       key={lib.id}
                       type="button"
                       onClick={() => setSelectedId(lib.id)}
-                      className={`w-full text-left p-4 rounded-lg border transition-colors flex items-center justify-between gap-4 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 ${
+                      className={`w-full text-left p-4 rounded-xl border transition-all duration-150 flex items-center justify-between gap-4 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-700 ${
                         isSelected
-                          ? 'border-blue-600 bg-blue-50/50'
-                          : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'
+                          ? 'border-teal-700 bg-teal-50/60'
+                          : 'border-[#E2E7E4] bg-white hover:border-slate-300 hover:bg-slate-50/70'
                       }`}
                     >
                       <div className="flex items-center gap-3.5 min-w-0">
                         <div
-                          className={`w-10 h-10 rounded-lg flex items-center justify-center font-display text-sm font-semibold shrink-0 ${
+                          className={`w-11 h-11 rounded-xl flex items-center justify-center font-display text-sm font-bold shrink-0 transition-colors ${
                             isSelected
-                              ? 'bg-blue-700 text-white'
-                              : 'bg-slate-100 text-slate-700'
+                              ? 'bg-[#0F766E] text-white'
+                              : 'bg-[#EEF2F0] text-[#111C19]'
                           }`}
                         >
                           {lib.initials}
                         </div>
                         <div className="min-w-0">
-                          <div className="text-sm font-semibold text-slate-900 truncate">
+                          <div className="text-sm font-semibold text-[#111C19] truncate">
                             {lib.name}
                           </div>
                           <div className="text-xs text-slate-500 truncate mt-0.5">
@@ -116,11 +145,11 @@ export function LibrarianLoginView({
                         </div>
                       </div>
                       <span
-                        className={`text-xs font-medium shrink-0 ${
-                          isSelected ? 'text-blue-700' : 'text-slate-400'
+                        className={`text-xs font-semibold shrink-0 flex items-center gap-1 ${
+                          isSelected ? 'text-teal-800' : 'text-slate-400'
                         }`}
                       >
-                        {isSelected ? 'Dipilih' : 'Pilih'}
+                        {isSelected ? 'Aktif Dipilih' : 'Pilih'}
                       </span>
                     </button>
                   );
@@ -130,8 +159,11 @@ export function LibrarianLoginView({
 
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label htmlFor="librarian-pin" className="block text-xs font-medium text-slate-700">
-                  PIN Akses Pustakawan
+                <label
+                  htmlFor="librarian-pin"
+                  className="block text-xs font-semibold text-slate-700"
+                >
+                  PIN Akses Petugas
                 </label>
                 <span className="text-xs font-mono text-slate-500">PIN Default: 123456</span>
               </div>
@@ -145,7 +177,7 @@ export function LibrarianLoginView({
                   placeholder="Masukkan 6 digit PIN"
                   maxLength={12}
                   required
-                  className="w-full pl-10 pr-4 py-2.5 text-sm font-mono bg-white border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/15"
+                  className="w-full pl-10 pr-4 py-2.5 text-sm font-mono bg-white border border-[#DCE3DF] rounded-xl text-[#111C19] focus:outline-none focus:border-teal-700 focus:ring-2 focus:ring-teal-700/15"
                 />
               </div>
             </div>
@@ -153,7 +185,7 @@ export function LibrarianLoginView({
             {errorMessage && (
               <div
                 role="alert"
-                className="p-3 rounded-lg border border-red-200 bg-red-50 text-xs font-medium text-red-700"
+                className="p-3 rounded-xl border border-red-200 bg-red-50 text-xs font-medium text-red-700"
               >
                 {errorMessage}
               </div>
@@ -162,7 +194,7 @@ export function LibrarianLoginView({
             <button
               type="submit"
               disabled={submitting || !selectedLibrarian}
-              className="w-full py-2.5 px-4 bg-blue-700 hover:bg-blue-800 disabled:opacity-50 text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
+              className="w-full py-3 px-4 bg-[#0F766E] hover:bg-[#115E59] disabled:opacity-50 text-white text-sm font-semibold rounded-xl transition-colors flex items-center justify-center gap-2 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-700 focus-visible:ring-offset-2"
             >
               <ShieldCheck className="w-4 h-4" />
               <span>
@@ -170,10 +202,11 @@ export function LibrarianLoginView({
                   ? 'Memverifikasi Sesi...'
                   : `Masuk sebagai ${selectedLibrarian?.name.split(',')[0] || 'Pustakawan'}`}
               </span>
+              <ArrowRight className="w-4 h-4" />
             </button>
           </form>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

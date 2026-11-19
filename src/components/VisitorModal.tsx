@@ -41,15 +41,15 @@ export function VisitorModal({ open, onClose, onSubmit }: VisitorModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-slate-900/45 flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 bg-slate-950/50 flex items-center justify-center p-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="visitor-modal-title"
     >
-      <div className="bg-white border border-slate-200 rounded-xl w-full max-w-md p-6">
+      <div className="bg-white border border-[#DCE3DF] rounded-2xl w-full max-w-md p-6">
         <div className="flex items-center justify-between pb-3 border-b border-slate-100">
           <div>
-            <h2 id="visitor-modal-title" className="font-display text-lg font-semibold text-slate-900">
+            <h2 id="visitor-modal-title" className="font-display text-xl font-semibold text-[#111C19]">
               Catat Kunjungan Harian
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">
@@ -60,7 +60,7 @@ export function VisitorModal({ open, onClose, onSubmit }: VisitorModalProps) {
             type="button"
             onClick={onClose}
             aria-label="Tutup modal pengunjung"
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-900 hover:bg-slate-100 cursor-pointer"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-[#111C19] hover:bg-slate-100 cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -75,7 +75,7 @@ export function VisitorModal({ open, onClose, onSubmit }: VisitorModalProps) {
               value={visitorName}
               onChange={(e) => setVisitorName(e.target.value)}
               placeholder="Contoh: Bagas Saputra"
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-600"
+              className="w-full px-3 py-2 border border-[#DCE3DF] rounded-lg focus:outline-none focus:border-teal-700"
             />
           </div>
 
@@ -88,7 +88,7 @@ export function VisitorModal({ open, onClose, onSubmit }: VisitorModalProps) {
               value={memberId}
               onChange={(e) => setMemberId(e.target.value)}
               placeholder="Contoh: ANG-2026-015"
-              className="w-full px-3 py-2 font-mono border border-slate-200 rounded-lg focus:outline-none focus:border-blue-600"
+              className="w-full px-3 py-2 font-mono border border-[#DCE3DF] rounded-lg focus:outline-none focus:border-teal-700"
             />
           </div>
 
@@ -98,7 +98,7 @@ export function VisitorModal({ open, onClose, onSubmit }: VisitorModalProps) {
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value as VisitorCategory)}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg bg-white focus:outline-none focus:border-blue-600"
+                className="w-full px-3 py-2 border border-[#DCE3DF] rounded-lg bg-white focus:outline-none focus:border-teal-700"
               >
                 <option value="Pelajar">Pelajar</option>
                 <option value="Mahasiswa">Mahasiswa</option>
@@ -111,7 +111,7 @@ export function VisitorModal({ open, onClose, onSubmit }: VisitorModalProps) {
               <select
                 value={purpose}
                 onChange={(e) => setPurpose(e.target.value as VisitorPurpose)}
-                className="w-full px-3 py-2 border border-slate-200 rounded-lg bg-white focus:outline-none focus:border-blue-600"
+                className="w-full px-3 py-2 border border-[#DCE3DF] rounded-lg bg-white focus:outline-none focus:border-teal-700"
               >
                 <option value="Baca di Tempat">Baca di Tempat</option>
                 <option value="Peminjaman Buku">Peminjaman Buku</option>
@@ -131,14 +131,14 @@ export function VisitorModal({ open, onClose, onSubmit }: VisitorModalProps) {
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-xs font-medium text-slate-700 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 cursor-pointer"
+              className="px-4 py-2 text-xs font-medium text-slate-700 bg-white border border-[#DCE3DF] rounded-lg hover:bg-slate-50 cursor-pointer"
             >
               Batal
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="px-4 py-2 text-xs font-medium text-white bg-blue-700 hover:bg-blue-800 disabled:opacity-50 rounded-lg cursor-pointer"
+              className="px-4 py-2 text-xs font-semibold text-white bg-[#0F766E] hover:bg-[#115E59] disabled:opacity-50 rounded-lg cursor-pointer"
             >
               {submitting ? 'Menyimpan...' : 'Catat Kunjungan'}
             </button>

@@ -257,7 +257,7 @@ export default function App() {
   const { analytics, books, loans, visitors, notificationLogs, currentLibrarian } = bootstrap;
 
   return (
-    <div className="min-h-screen bg-slate-50 flex text-slate-900">
+    <div className="min-h-screen bg-[#F4F6F5] flex text-[#111C19]">
       <Sidebar
         activeTab={activeTab}
         onSelectTab={setActiveTab}
@@ -329,11 +329,13 @@ export default function App() {
           {activeTab === 'analytics' && (
             <DashboardAnalyticsView
               analytics={analytics}
+              currentLibrarian={currentLibrarian}
               loans={loans}
               books={books}
               visitors={visitors}
               onNavigate={setActiveTab}
               onOpenVisitorModal={() => setVisitorModalOpen(true)}
+              onOpenLoanModal={() => setLoanModalOpen(true)}
             />
           )}
 
@@ -397,16 +399,16 @@ export default function App() {
       {/* Quick Switch Librarian PIN Modal */}
       {switchTarget && (
         <div
-          className="fixed inset-0 z-50 bg-slate-900/45 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-slate-950/50 flex items-center justify-center p-4"
           role="dialog"
           aria-modal="true"
         >
-          <div className="bg-white border border-slate-200 rounded-xl w-full max-w-sm p-6">
-            <h3 className="font-display text-base font-semibold text-slate-900">
+          <div className="bg-white border border-[#DCE3DF] rounded-2xl w-full max-w-sm p-6">
+            <h3 className="font-display text-lg font-semibold text-[#111C19]">
               Ganti Sesi Pustakawan
             </h3>
             <p className="mt-1 text-xs text-slate-500">
-              Masuk sebagai <strong className="text-slate-900">{switchTarget.name}</strong> ({switchTarget.role}).
+              Masuk sebagai <strong className="text-[#111C19]">{switchTarget.name}</strong> ({switchTarget.role}).
             </p>
             <form onSubmit={handleConfirmSwitchLibrarian} className="mt-4 space-y-4 text-xs">
               <div>
@@ -419,7 +421,7 @@ export default function App() {
                   required
                   value={switchPin}
                   onChange={(e) => setSwitchPin(e.target.value)}
-                  className="w-full px-3 py-2 font-mono border border-slate-200 rounded-lg focus:outline-none focus:border-blue-600"
+                  className="w-full px-3 py-2 font-mono border border-[#DCE3DF] rounded-lg focus:outline-none focus:border-teal-700"
                 />
               </div>
               {switchError && (
@@ -431,13 +433,13 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => setSwitchTarget(null)}
-                  className="px-3.5 py-2 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 cursor-pointer"
+                  className="px-3.5 py-2 rounded-lg border border-[#DCE3DF] text-slate-700 hover:bg-slate-50 cursor-pointer"
                 >
                   Batal
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 rounded-lg bg-blue-700 hover:bg-blue-800 text-white font-medium cursor-pointer"
+                  className="px-4 py-2 rounded-lg bg-[#0F766E] hover:bg-[#115E59] text-white font-semibold cursor-pointer"
                 >
                   Konfirmasi Beralih
                 </button>

@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { BellRing, Check, Copy, Send } from 'lucide-react';
+import { motion } from 'motion/react';
 import type { EnrichedLoan, NotificationChannel, NotificationLog } from '../types/library';
 import {
   buildOverdueMessage,
@@ -94,10 +95,15 @@ export function NotificationsView({
   };
 
   return (
-    <div className="space-y-6">
+    <motion.div
+      initial={{ opacity: 0, y: 6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+      className="space-y-6"
+    >
       {/* Top summary strip */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-white border border-slate-200 rounded-xl p-5">
+        <div className="bg-white border border-[#DCE3DF] rounded-2xl p-5">
           <div className="text-xs text-slate-500">Peminjaman Terlambat & Jatuh Tempo</div>
           <div className="mt-2 font-mono text-2xl font-semibold text-red-600 tabular-nums">
             {alertLoans.length} transaksi
@@ -107,17 +113,17 @@ export function NotificationsView({
           </div>
         </div>
 
-        <div className="bg-white border border-slate-200 rounded-xl p-5">
+        <div className="bg-white border border-[#DCE3DF] rounded-2xl p-5">
           <div className="text-xs text-slate-500">Total Akumulasi Denda Aktif</div>
-          <div className="mt-2 font-mono text-2xl font-semibold text-slate-900 tabular-nums">
+          <div className="mt-2 font-mono text-2xl font-semibold text-[#111C19] tabular-nums">
             {formatRupiah(totalPendingFines)}
           </div>
           <div className="mt-1 text-xs text-slate-500">Belum dikembalikan ke sirkulasi</div>
         </div>
 
-        <div className="bg-white border border-slate-200 rounded-xl p-5">
+        <div className="bg-white border border-[#DCE3DF] rounded-2xl p-5">
           <div className="text-xs text-slate-500">Notifikasi Terkirim</div>
-          <div className="mt-2 font-mono text-2xl font-semibold text-slate-900 tabular-nums">
+          <div className="mt-2 font-mono text-2xl font-semibold text-[#111C19] tabular-nums">
             {notificationLogs.length} pesan
           </div>
           <div className="mt-1 text-xs text-slate-500">Riwayat pengingat dari 2 pustakawan</div>
@@ -126,10 +132,10 @@ export function NotificationsView({
 
       {/* Main Split: Left Overdue Queue + Right Message Composer */}
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
-        <section className="xl:col-span-7 bg-white border border-slate-200 rounded-xl overflow-hidden">
-          <div className="p-5 border-b border-slate-200 flex items-center justify-between gap-2">
+        <section className="xl:col-span-7 bg-white border border-[#DCE3DF] rounded-2xl overflow-hidden">
+          <div className="p-5 border-b border-[#E2E7E4] flex items-center justify-between gap-2">
             <div>
-              <h2 className="font-display text-base font-semibold text-slate-900">
+              <h2 className="font-display text-lg font-semibold text-[#111C19]">
                 Daftar Peringatan Keterlambatan
               </h2>
               <p className="text-xs text-slate-500 mt-0.5">
@@ -139,7 +145,7 @@ export function NotificationsView({
             <button
               type="button"
               onClick={onGoToReturn}
-              className="text-xs font-medium text-blue-700 hover:text-blue-800 whitespace-nowrap cursor-pointer"
+              className="text-xs font-semibold text-teal-800 hover:text-teal-900 whitespace-nowrap cursor-pointer"
             >
               Ke Sirkulasi Pengembalian →
             </button>
@@ -159,12 +165,12 @@ export function NotificationsView({
                     type="button"
                     onClick={() => setSelectedLoanId(loan.id)}
                     className={`w-full text-left p-4 transition-colors flex items-start justify-between gap-4 cursor-pointer ${
-                      isSelected ? 'bg-blue-50/60' : 'hover:bg-slate-50'
+                      isSelected ? 'bg-teal-50/60' : 'hover:bg-[#F8FAF9]'
                     }`}
                   >
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-semibold text-slate-900">
+                        <span className="text-sm font-semibold text-[#111C19]">
                           {loan.borrowerName}
                         </span>
                         <span className="font-mono text-xs text-slate-400">· {loan.code}</span>
@@ -179,7 +185,7 @@ export function NotificationsView({
                           <>
                             {' '}
                             <span aria-hidden="true">·</span>{' '}
-                            <span className="text-slate-700 font-medium">
+                            <span className="text-[#111C19] font-medium">
                               Terkirim {loan.notificationCount}×
                             </span>
                           </>
@@ -195,7 +201,7 @@ export function NotificationsView({
                       >
                         {getDueStatusText(loan)}
                       </div>
-                      <div className="font-mono tabular-nums text-sm font-semibold text-slate-900 mt-0.5">
+                      <div className="font-mono tabular-nums text-sm font-semibold text-[#111C19] mt-0.5">
                         {formatRupiah(loan.currentLateFine)}
                       </div>
                     </div>
@@ -207,12 +213,12 @@ export function NotificationsView({
         </section>
 
         {/* Composer */}
-        <section className="xl:col-span-5 bg-white border border-slate-200 rounded-xl p-5 flex flex-col justify-between">
+        <section className="xl:col-span-5 bg-white border border-[#DCE3DF] rounded-2xl p-5 flex flex-col justify-between">
           {selectedLoan ? (
             <div className="space-y-4">
               <div className="flex items-center justify-between gap-2 pb-3 border-b border-slate-100">
                 <div>
-                  <h3 className="font-display text-sm font-semibold text-slate-900">
+                  <h3 className="font-display text-base font-semibold text-[#111C19]">
                     Kirim Notifikasi Denda
                   </h3>
                   <p className="text-xs text-slate-500">
@@ -222,10 +228,10 @@ export function NotificationsView({
                 <BellRing className="w-4 h-4 text-red-600 shrink-0" />
               </div>
 
-              <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-xs space-y-1">
+              <div className="bg-[#F8FAF9] border border-[#DCE3DF] rounded-xl p-3 text-xs space-y-1">
                 <div className="flex justify-between">
                   <span className="text-slate-500">Rincian Denda</span>
-                  <span className="font-mono tabular-nums text-slate-900">
+                  <span className="font-mono tabular-nums text-[#111C19]">
                     {selectedLoan.totalBooks} buku × {selectedLoan.currentLateDays} hari × Rp 1.000
                   </span>
                 </div>
@@ -241,16 +247,16 @@ export function NotificationsView({
                 <label className="block text-xs font-medium text-slate-700 mb-1.5">
                   Kanal Pengiriman
                 </label>
-                <div className="flex items-center gap-1 p-1 bg-slate-100 rounded-lg">
+                <div className="flex items-center gap-1 p-1 bg-[#EEF2F0] rounded-lg">
                   {(['WhatsApp', 'SMS', 'Sistem'] as const).map((ch) => (
                     <button
                       key={ch}
                       type="button"
                       onClick={() => setChannel(ch)}
-                      className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-colors cursor-pointer ${
+                      className={`flex-1 py-1.5 text-xs font-semibold rounded-md transition-colors cursor-pointer ${
                         channel === ch
-                          ? 'bg-white text-slate-900 shadow-xs'
-                          : 'text-slate-600 hover:text-slate-900'
+                          ? 'bg-white text-[#111C19] shadow-xs'
+                          : 'text-slate-600 hover:text-[#111C19]'
                       }`}
                     >
                       {ch}
@@ -271,12 +277,12 @@ export function NotificationsView({
                   rows={5}
                   value={draftMessage}
                   onChange={(e) => setDraftMessage(e.target.value)}
-                  className="w-full p-3 text-xs leading-relaxed border border-slate-200 rounded-lg text-slate-900 focus:outline-none focus:border-blue-600"
+                  className="w-full p-3 text-xs leading-relaxed border border-[#DCE3DF] rounded-xl text-[#111C19] focus:outline-none focus:border-teal-700"
                 />
               </div>
 
               {feedback && (
-                <div className="p-3 rounded-lg bg-emerald-50 border border-emerald-200 text-xs text-emerald-800">
+                <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800">
                   {feedback}
                 </div>
               )}
@@ -291,7 +297,7 @@ export function NotificationsView({
                       setTimeout(() => setCopiedId(null), 2000);
                     }
                   }}
-                  className="px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs font-medium text-slate-700 hover:bg-slate-50 inline-flex items-center gap-1.5 cursor-pointer"
+                  className="px-3.5 py-2.5 border border-[#DCE3DF] rounded-lg text-xs font-medium text-slate-700 hover:bg-slate-50 inline-flex items-center gap-1.5 cursor-pointer"
                 >
                   {copiedId === selectedLoan.id ? (
                     <>
@@ -309,7 +315,7 @@ export function NotificationsView({
                   type="button"
                   onClick={handleCopyAndSend}
                   disabled={sending || !draftMessage.trim()}
-                  className="flex-1 py-2.5 px-4 bg-blue-700 hover:bg-blue-800 disabled:opacity-50 text-white text-xs font-medium rounded-lg inline-flex items-center justify-center gap-2 cursor-pointer"
+                  className="flex-1 py-2.5 px-4 bg-[#0F766E] hover:bg-[#115E59] disabled:opacity-50 text-white text-xs font-semibold rounded-lg inline-flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Send className="w-3.5 h-3.5" />
                   <span>{sending ? 'Mengirim...' : `Kirim & Catat Notifikasi ${channel}`}</span>
@@ -325,9 +331,9 @@ export function NotificationsView({
       </div>
 
       {/* Sent Notification History */}
-      <section className="bg-white border border-slate-200 rounded-xl overflow-hidden">
-        <div className="p-5 border-b border-slate-200">
-          <h2 className="font-display text-base font-semibold text-slate-900">
+      <section className="bg-white border border-[#DCE3DF] rounded-2xl overflow-hidden">
+        <div className="p-5 border-b border-[#E2E7E4]">
+          <h2 className="font-display text-lg font-semibold text-[#111C19]">
             Riwayat Notifikasi Terkirim
           </h2>
         </div>
@@ -339,7 +345,7 @@ export function NotificationsView({
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="border-b border-slate-200 bg-slate-50/70 text-slate-500">
+                <tr className="border-b border-[#E2E7E4] bg-[#F8FAF9] text-slate-500">
                   <th className="py-3 px-4 font-medium">Waktu Kirim</th>
                   <th className="py-3 px-4 font-medium">Peminjam / Kode</th>
                   <th className="py-3 px-4 font-medium">Kanal</th>
@@ -350,12 +356,12 @@ export function NotificationsView({
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {notificationLogs.map((log) => (
-                  <tr key={log.id} className="hover:bg-slate-50/80">
+                  <tr key={log.id} className="hover:bg-[#F8FAF9]">
                     <td className="py-3 px-4 font-mono tabular-nums text-slate-600 whitespace-nowrap">
                       {formatDateTime(log.sentAt)}
                     </td>
                     <td className="py-3 px-4 whitespace-nowrap">
-                      <div className="font-medium text-slate-900">{log.borrowerName}</div>
+                      <div className="font-semibold text-[#111C19]">{log.borrowerName}</div>
                       <div className="font-mono text-[11px] text-slate-500">{log.loanCode}</div>
                     </td>
                     <td className="py-3 px-4 text-slate-700 whitespace-nowrap">{log.channel}</td>
@@ -373,6 +379,6 @@ export function NotificationsView({
           </div>
         )}
       </section>
-    </div>
+    </motion.div>
   );
 }
